@@ -271,7 +271,7 @@ function App() {
     } else {
       setCategory(category.filter((item) => item !== value))
     } 
-    // Notice: No manual filter triggering needed anymore!
+    // No manual filter triggering
   }
 
   return (
