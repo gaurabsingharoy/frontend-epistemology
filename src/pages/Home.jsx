@@ -1,10 +1,11 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 import Nav from "../components/Nav"
 import ecommContext from "../contexts/ContextProvider";
 
 const Home = () => {
-    const { bookData, category, rating, setRating, sort, setSort, handleCategoryFilter } = useContext(ecommContext);
+    const { filteredBooks, cartData, category, rating, setRating, sort, setSort, handleCategoryFilter, toggleAddToCart } = useContext(ecommContext);
     const RatingDisplay = ({ rating }) => {
 
         let stars = [];
@@ -20,7 +21,7 @@ const Home = () => {
         return <span>{stars.join("")}</span>
     }
     return (
-        <div className="bg-light">
+        <div className="">
             <Nav />
             <div className="container py-2">
                 <div className="row">
@@ -57,7 +58,7 @@ const Home = () => {
                     </div>
                     <div className="col-md-9">
                         <div className="row">
-                            {bookData.map((book) => (
+                            {filteredBooks.map((book) => (
                                 <div className="col-md-4 mb-4 d-flex align-items-stretch">
                                     <div className="px-3 py-3 d-flex flex-column w-100">
                                         <img
@@ -85,7 +86,7 @@ const Home = () => {
                                                 {" "}
                                                 <span className="text-muted text-decoration-line-through small">₹{book.price}</span>
                                             </div>
-                                            <button className="btn btn-primary w-100">Add to Cart</button>
+                                            {cartData.some((cartBook) => cartBook.title === book.title) ? <button className="btn btn-outline-dark w-100 disabled">Added to Cart</button> : <button className="btn btn-warning w-100" onClick={() => toggleAddToCart(book.title)}>Add to Cart</button>}
                                         </div>
                                     </div>
                                 </div>

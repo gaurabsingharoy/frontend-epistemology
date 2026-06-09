@@ -38,7 +38,7 @@ const initialBookData = [
     price: 699,
     discountedPrice: 629,
     inStock: "true",
-    imageUrl: "https://placehold.co/300x450/e0e0e0/606060.png?text=Zero+To+One&font=roboto"
+    imageUrl: "https://placehold.co/350x500/e0e0e0/606060.png?text=Zero+To+One&font=roboto"
 
   },
   {
@@ -54,7 +54,7 @@ const initialBookData = [
     price: 699,
     discountedPrice: 629,
     inStock: "true",
-    imageUrl: "https://placehold.co/300x450/e0e0e0/606060.png?text=Mr.Feynman&font=roboto"
+    imageUrl: "https://placehold.co/350x500/e0e0e0/606060.png?text=Mr.Feynman&font=roboto"
   },
   {
     title: "Quantitative Aptitude for CAT",
@@ -69,7 +69,7 @@ const initialBookData = [
     price: 999,
     discountedPrice: 799,
     inStock: "true",
-    imageUrl: "https://placehold.co/300x450/e0e0e0/606060.png?text=QA+for+CAT&font=roboto"
+    imageUrl: "https://placehold.co/350x500/e0e0e0/606060.png?text=QA+for+CAT&font=roboto"
   },
   {
     title: "Verbal Aptitude & Reading Comprehension for CAT",
@@ -84,7 +84,7 @@ const initialBookData = [
     price: 999,
     discountedPrice: 799,
     inStock: "true",
-    imageUrl: "https://placehold.co/300x450/e0e0e0/606060.png?text=VARC+for+CAT&font=roboto"
+    imageUrl: "https://placehold.co/350x500/e0e0e0/606060.png?text=VARC+for+CAT&font=roboto"
   },
   {
     title: "To Kill a Mockingbird",
@@ -99,7 +99,7 @@ const initialBookData = [
     price: 699,
     discountedPrice: 629,
     inStock: "true",
-    imageUrl: "https://placehold.co/300x450/e0e0e0/606060.png?text=Mockingbird&font=roboto"
+    imageUrl: "https://placehold.co/350x500/e0e0e0/606060.png?text=Mockingbird&font=roboto"
   },
   {
     title: "Atomic Habits",
@@ -114,7 +114,7 @@ const initialBookData = [
     price: 599,
     discountedPrice: 479,
     inStock: "true",
-    imageUrl: "https://placehold.co/300x450/C2FFD9/0B6623.png?text=Atomic+Habits&font=roboto"
+    imageUrl: "https://placehold.co/350x500/C2FFD9/0B6623.png?text=Atomic+Habits&font=roboto"
   },
   {
     title: "The Lean Startup",
@@ -129,7 +129,7 @@ const initialBookData = [
     price: 799,
     discountedPrice: 699,
     inStock: "true",
-    imageUrl: "https://placehold.co/300x450/D0E1FD/1B4D8F.png?text=Lean+Startup&font=roboto"
+    imageUrl: "https://placehold.co/350x500/C2FFD9/0B6623.png?text=Lean+Startup&font=roboto"
   },
   {
     title: "Data Interpretation & Logical Reasoning for CAT",
@@ -144,7 +144,7 @@ const initialBookData = [
     price: 899,
     discountedPrice: 749,
     inStock: "true",
-    imageUrl: "https://placehold.co/300x450/FFE4C4/8B4513.png?text=DILR+for+CAT&font=roboto"
+    imageUrl: "https://placehold.co/350x500/FFE4C4/8B4513.png?text=DILR+for+CAT&font=roboto"
   },
   {
     title: "1984",
@@ -159,7 +159,7 @@ const initialBookData = [
     price: 499,
     discountedPrice: 399,
     inStock: "true",
-    imageUrl: "https://placehold.co/300x450/FFC1C1/A30000.png?text=1984&font=roboto"
+    imageUrl: "https://placehold.co/350x500/FFC1C1/A30000.png?text=1984&font=roboto"
   },
   {
     title: "The Psychology of Money",
@@ -174,7 +174,7 @@ const initialBookData = [
     price: 450,
     discountedPrice: 380,
     inStock: "true",
-    imageUrl: "https://placehold.co/300x450/E6E6FA/4B0082.png?text=Psych+Money&font=roboto"
+    imageUrl: "https://placehold.co/350x500/E6E6FA/4B0082.png?text=Psych+Money&font=roboto"
   },
   {
     title: "The Subtle Art of Making Money Quick",
@@ -189,7 +189,7 @@ const initialBookData = [
     price: 399,
     discountedPrice: 349,
     inStock: "true",
-    imageUrl: "https://placehold.co/300x450/FFD2A6/D97706.png?text=Making+Money+Quick&font=roboto"
+    imageUrl: "https://placehold.co/350x500/FFD2A6/D97706.png?text=Making+Money+Quick&font=roboto"
   },
   {
     title: "Cracking the Advanced Calculus Code",
@@ -204,7 +204,7 @@ const initialBookData = [
     price: 650,
     discountedPrice: 599,
     inStock: "true",
-    imageUrl: "https://placehold.co/300x450/FCA5A5/DC2626.png?text=Advanced+Calculus&font=roboto"
+    imageUrl: "https://placehold.co/350x500/FCA5A5/DC2626.png?text=Advanced+Calculus&font=roboto"
   },
   {
     title: "The Whispering Shadows",
@@ -219,7 +219,7 @@ const initialBookData = [
     price: 299,
     discountedPrice: 199,
     inStock: "true",
-    imageUrl: "https://placehold.co/300x450/E9D5FF/7E22CE.png?text=Whispering+Shadows&font=roboto"
+    imageUrl: "https://placehold.co/350x500/E9D5FF/7E22CE.png?text=Whispering+Shadows&font=roboto"
   },
   {
     title: "10 Days to Absolute Enlightenment",
@@ -234,11 +234,12 @@ const initialBookData = [
     price: 499,
     discountedPrice: 249,
     inStock: "true",
-    imageUrl: "https://placehold.co/300x450/CBD5E1/475569.png?text=Absolute+Enlightenment&font=roboto"
+    imageUrl: "https://placehold.co/350x500/CBD5E1/475569.png?text=Absolute+Enlightenment&font=roboto"
   }
 ]
 
 function App() {
+  const [cartData, setCartData] = useState([])
   const [category, setCategory] = useState([])
   const [rating, setRating] = useState(0)
   const [sort, setSort] = useState("")
@@ -271,11 +272,27 @@ function App() {
     } else {
       setCategory(category.filter((item) => item !== value))
     } 
-    // No manual filter triggering
+  }
+
+  //handles cart
+  function toggleAddToCart(selectedItem) {
+    // Check if the item is already in the cart
+  const isAlreadyInCart = cartData.some((book) => book.title === selectedItem);
+
+  if (isAlreadyInCart) {
+    // Remove it from the cart
+    setCartData(cartData.filter((book) => book.title !== selectedItem));
+  } else {
+    // Find the item from your source data and add it
+    const itemToAdd = initialBookData.find((book) => book.title === selectedItem);
+    if (itemToAdd) {
+      setCartData([...cartData, { ...itemToAdd, isAddedToCart: true }]);
+    }
+  }
   }
 
   return (
-    <ecommContext.Provider value={{ bookData: filteredBooks, category, rating, sort, setSort, setRating, handleCategoryFilter }}>
+    <ecommContext.Provider value={{ filteredBooks, cartData, category, rating, sort, setSort, setRating, handleCategoryFilter, toggleAddToCart }}>
       <RouterProvider router={router} />
     </ecommContext.Provider>
   )
