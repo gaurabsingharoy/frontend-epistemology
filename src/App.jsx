@@ -275,7 +275,7 @@ function App() {
   }
 
   return (
-    <ecommContext.Provider value={{ bookData: filteredBooks, category, rating, setRating, handleCategoryFilter }}>
+    <ecommContext.Provider value={{ bookData: filteredBooks, category, rating, sort, setSort, setRating, handleCategoryFilter }}>
       <RouterProvider router={router} />
     </ecommContext.Provider>
   )

@@ -4,7 +4,7 @@ import Nav from "../components/Nav"
 import ecommContext from "../contexts/ContextProvider";
 
 const Home = () => {
-    const { bookData, category, rating, setRating, handleCategoryFilter } = useContext(ecommContext);
+    const { bookData, category, rating, setRating, sort, setSort, handleCategoryFilter } = useContext(ecommContext);
     const RatingDisplay = ({ rating }) => {
 
         let stars = [];
@@ -50,9 +50,9 @@ const Home = () => {
                         <div>
                             <span className="fs-4 fw-medium">Sort By: </span>
                             <br />
-                            <input type="radio" name="sortByPrice" /> <label htmlFor="sortByPrice">Price: Low to High</label>
+                            <input type="radio" value="LOW_TO_HIGH" name="sortByPrice" checked={sort === "LOW_TO_HIGH"} onChange={(event) => setSort(event.target.value)} /> <label htmlFor="sortByPrice">Price: Low to High</label>
                             <br />
-                            <input type="radio" name="sortByPrice" /> <label htmlFor="sortByPrice">Price: High to Low</label>
+                            <input type="radio" value="HIGH_TO_LOW" name="sortByPrice" checked={sort === "HIGH_TO_LOW"} onChange={(event) => setSort(event.target.value)} /> <label htmlFor="sortByPrice">Price: High to Low</label>
                         </div>
                     </div>
                     <div className="col-md-9">
