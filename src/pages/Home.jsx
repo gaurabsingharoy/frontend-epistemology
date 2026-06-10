@@ -5,7 +5,7 @@ import Nav from "../components/Nav"
 import ecommContext from "../contexts/ContextProvider";
 
 const Home = () => {
-    const { filteredBooks, cartData, category, rating, setRating, sort, setSort, handleCategoryFilter, toggleAddToCart } = useContext(ecommContext);
+    const { filteredBooks, cartData, wishlistData, category, rating, setRating, sort, setSort, handleCategoryFilter, toggleAddToCart, toggleAddToWishlist } = useContext(ecommContext);
     const RatingDisplay = ({ rating }) => {
 
         let stars = [];
@@ -87,6 +87,7 @@ const Home = () => {
                                                 <span className="text-muted text-decoration-line-through small">₹{book.price}</span>
                                             </div>
                                             {cartData.some((cartBook) => cartBook.title === book.title) ? <button className="btn btn-outline-dark w-100 disabled">Added to Cart</button> : <button className="btn btn-warning w-100" onClick={() => toggleAddToCart(book.title)}>Add to Cart</button>}
+                                            {wishlistData.some((wishlistBook) => wishlistBook.title === book.title) ? <button className="btn btn-outline-dark w-100 disabled">Saved in Wishlist</button> : <button className="btn btn-dark w-100" onClick={() => toggleAddToWishlist(book.title)}>Save to Wishlist</button>}
                                         </div>
                                     </div>
                                 </div>

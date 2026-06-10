@@ -18,7 +18,7 @@ const Cart = () => {
         }
         return <span>{stars.join("")}</span>
     }
-    const { cartData, toggleAddToCart } = useContext(ecommContext);
+    const { cartData, toggleAddToCart, moveItemToWishlist } = useContext(ecommContext);
     console.log(cartData)
     const cartTotalPrice = cartData.reduce((acc, curr) => acc + curr.price, 0)
     const cartDiscountedPrice = cartData.reduce((acc, curr) => acc + curr.discountedPrice, 0)
@@ -41,12 +41,17 @@ const Cart = () => {
                                                     <span className="fs-6 fw-medium card-title">{book.title}</span>
                                                     <br />
                                                     <span className="">By {book.author}</span>
+                                                    <br/>                                                 
+                                                        <span className="fs-5 fw-bold text-primary">₹{book.discountedPrice}</span>
+                                                        <span className="ms-2 text-muted text-decoration-line-through">₹{book.price}</span>
+                                                        <br/>
+                                                        
+                                                        <span className="fw-normal text-secondary">Quantity: {book.quantity}</span>
+                                                                                                                                                                   
                                                     <br/>
-                                                    <span className="fs-5 fw-bold text-primary">₹{book.discountedPrice}</span><span className="ms-2 text-muted text-decoration-line-through">₹{book.price}</span>
+                                                    <button className="btn btn-outline-danger w-100 mt-2" onClick={() => toggleAddToCart(book.title)}>Remove from Cart</button>
                                                     <br/>
-                                                    <button className="btn btn-outline-danger w-100" onClick={() => toggleAddToCart(book.title)}>Remove from Cart</button>
-                                                    <br/>
-                                                    <button className="btn btn-dark w-100 disabled">Move to Wishlist</button>
+                                                    <button className="btn btn-dark w-100" onClick={() => moveItemToWishlist(book.title)}>Move to Wishlist</button>
                                             </div>
                                         </div>
                                 ))}

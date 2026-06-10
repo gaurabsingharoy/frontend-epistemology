@@ -240,6 +240,7 @@ const initialBookData = [
 
 function App() {
   const [cartData, setCartData] = useState([])
+  const [wishlistData, setWishlistData] = useState([])
   const [category, setCategory] = useState([])
   const [rating, setRating] = useState(0)
   const [sort, setSort] = useState("")
@@ -286,13 +287,57 @@ function App() {
     // Find the item from your source data and add it
     const itemToAdd = initialBookData.find((book) => book.title === selectedItem);
     if (itemToAdd) {
-      setCartData([...cartData, { ...itemToAdd, isAddedToCart: true }]);
+      setCartData([...cartData, { ...itemToAdd, quantity: 1 }]);
     }
   }
   }
 
+  //handles wishlist
+  function toggleAddToWishlist(selectedItem) {
+    // Check if the item is already in the wishlist
+    const isAlreadyInWishlist = wishlistData.some((book) => book.title === selectedItem);
+
+    if (isAlreadyInWishlist) {
+      // Remove it from the wishlist
+      setWishlistData(wishlistData.filter((book) => book.title !== selectedItem));
+    } else {
+      // Find the item from your source data and add it
+      const itemToAdd = initialBookData.find((book) => book.title === selectedItem);
+      if (itemToAdd) {
+        setWishlistData([...wishlistData, {...itemToAdd, quantity: 1}]);
+      }
+    }
+  }
+
+  //handles wishlist and cart when moving items to cart
+  function moveItemToCart (selectedItem) {
+    const itemToMove = wishlistData.find((book) => book.title === selectedItem);
+    const isAlreadyInCart = cartData.some((book) => book.title === selectedItem);
+
+    if (!isAlreadyInCart) {
+      setCartData([...cartData, {...itemToMove, quantity: 1}]);
+    } else {
+      const updatedCartData = cartData.map((book) => book.title === selectedItem ? { ...book, quantity: (book.quantity || 1) + 1 } : book);
+      setCartData(updatedCartData);
+    }
+
+    setWishlistData(wishlistData.filter((book) => book.title !== selectedItem));
+  }
+
+  //handles wishlist and cart when moving items to wishlist
+  function moveItemToWishlist (selectedItem) {
+    const itemToMove = cartData.find((book) => book.title === selectedItem);
+    const isAlreadyInWishlist = wishlistData.some((book) => book.title === selectedItem);
+
+    if (!isAlreadyInWishlist) {
+      setWishlistData([...wishlistData, {...itemToMove, quantity: 1}]);
+      setCartData(cartData.filter((book) => book.title !== selectedItem));
+    } else {
+      setCartData(cartData.filter((book) => book.title !== selectedItem));
+    }
+  }
   return (
-    <ecommContext.Provider value={{ filteredBooks, cartData, category, rating, sort, setSort, setRating, handleCategoryFilter, toggleAddToCart }}>
+    <ecommContext.Provider value={{ filteredBooks, cartData, wishlistData, category, rating, sort, setSort, setRating, handleCategoryFilter, toggleAddToCart, toggleAddToWishlist, moveItemToCart, moveItemToWishlist }}>
       <RouterProvider router={router} />
     </ecommContext.Provider>
   )
