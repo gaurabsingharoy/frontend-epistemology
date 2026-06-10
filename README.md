@@ -1,6 +1,10 @@
 ## E-commerce App
 
-This app is a model ecommerce app with functionalities similar to most of the modern e-retail stores.
+This project is an online book listing and purchasing app with functionalities similar to most of the modern e-retail stores. Will keep updating the app with new features.
+
+### Vercel Deployment
+
+go to the URL to check the app: https://frontend-epistemology.vercel.app/
 
 ### Features
 
