@@ -10,7 +10,7 @@ import ecommContext from "../contexts/ContextProvider";
 const BookDetails = () => {
     const [bookQuantity, setBookQuantity] = useState(1)
     const [isClicked, setIsClicked] = useState(false);
-    const {initialBookData, cartData, setCartData} = useContext(ecommContext);
+    const {initialBookData, cartData, setCartData, toggleAddToCart} = useContext(ecommContext);
     const {bookId} = useParams();
     const selectedBook = initialBookData.find((book) => book.pid === Number(bookId));
 
@@ -186,7 +186,7 @@ const BookDetails = () => {
                                     <span className="fs-4 fw-bold text-primary">₹{book.discountedPrice}</span>
                                 </div>
                                 <div className="mt-auto">
-                                    <button className="btn btn-warning w-100 mb-2">Add to Cart</button>
+                                    {cartData.some((cartBook) => cartBook.title === book.title) ? <button className="btn btn-outline-dark w-100 disabled">Added to Cart</button> : <button className="btn btn-warning w-100" onClick={() => toggleAddToCart(book.title)}>Add to Cart</button>}
                                 </div>
                             </div>
                         </div>
