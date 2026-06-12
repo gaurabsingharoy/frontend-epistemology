@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import ecommContext from './contexts/ContextProvider';
+import BookDetails from './pages/BookDetails';
 import Cart from "./pages/Cart";
 import Wishlist from './pages/Wishlist';
 import Home from './pages/Home';
@@ -21,11 +22,16 @@ const router = createBrowserRouter([
   {
     path: "/cart",
     element: <Cart />
+  },
+  {
+    path: "/book/:bookId",
+    element: <BookDetails />
   }
 ])
 
 const initialBookData = [
   {
+    pid: 1,
     title: "Zero To One: Notes On Startups Or How To Build The Future",
     author: "Blake Masters & Peter Thiel",
     category: "Business",
@@ -42,6 +48,7 @@ const initialBookData = [
 
   },
   {
+    pid: 2,
     title: "Surely You're Joking Mr. Feynman",
     author: "Richard P Feynman",
     category: "Non-Fiction",
@@ -57,6 +64,7 @@ const initialBookData = [
     imageUrl: "https://placehold.co/350x500/e0e0e0/606060.png?text=Mr.Feynman&font=roboto"
   },
   {
+    pid: 3,
     title: "Quantitative Aptitude for CAT",
     author: "Arun Sharma",
     category: "Exam",
@@ -72,6 +80,7 @@ const initialBookData = [
     imageUrl: "https://placehold.co/350x500/e0e0e0/606060.png?text=QA+for+CAT&font=roboto"
   },
   {
+    pid: 4,
     title: "Verbal Aptitude & Reading Comprehension for CAT",
     author: "Arun Sharma",
     category: "Exam",
@@ -87,6 +96,7 @@ const initialBookData = [
     imageUrl: "https://placehold.co/350x500/e0e0e0/606060.png?text=VARC+for+CAT&font=roboto"
   },
   {
+    pid: 5,
     title: "To Kill a Mockingbird",
     author: "Harper Lee",
     category: "Fiction",
@@ -102,6 +112,7 @@ const initialBookData = [
     imageUrl: "https://placehold.co/350x500/e0e0e0/606060.png?text=Mockingbird&font=roboto"
   },
   {
+    pid: 6,
     title: "Atomic Habits",
     author: "James Clear",
     category: "Non-Fiction",
@@ -117,6 +128,7 @@ const initialBookData = [
     imageUrl: "https://placehold.co/350x500/C2FFD9/0B6623.png?text=Atomic+Habits&font=roboto"
   },
   {
+    pid: 7,
     title: "The Lean Startup",
     author: "Eric Ries",
     category: "Business",
@@ -132,6 +144,7 @@ const initialBookData = [
     imageUrl: "https://placehold.co/350x500/C2FFD9/0B6623.png?text=Lean+Startup&font=roboto"
   },
   {
+    pid: 8,
     title: "Data Interpretation & Logical Reasoning for CAT",
     author: "Arun Sharma",
     category: "Exam",
@@ -147,6 +160,7 @@ const initialBookData = [
     imageUrl: "https://placehold.co/350x500/FFE4C4/8B4513.png?text=DILR+for+CAT&font=roboto"
   },
   {
+    pid: 9,
     title: "1984",
     author: "George Orwell",
     category: "Fiction",
@@ -162,6 +176,7 @@ const initialBookData = [
     imageUrl: "https://placehold.co/350x500/FFC1C1/A30000.png?text=1984&font=roboto"
   },
   {
+    pid: 10,
     title: "The Psychology of Money",
     author: "Morgan Housel",
     category: "Business",
@@ -177,6 +192,7 @@ const initialBookData = [
     imageUrl: "https://placehold.co/350x500/E6E6FA/4B0082.png?text=Psych+Money&font=roboto"
   },
   {
+    pid: 11,
     title: "The Subtle Art of Making Money Quick",
     author: "John Cash",
     category: "Business",
@@ -192,6 +208,7 @@ const initialBookData = [
     imageUrl: "https://placehold.co/350x500/FFD2A6/D97706.png?text=Making+Money+Quick&font=roboto"
   },
   {
+    pid: 12,
     title: "Cracking the Advanced Calculus Code",
     author: "R. K. Verma",
     category: "Exam",
@@ -207,6 +224,7 @@ const initialBookData = [
     imageUrl: "https://placehold.co/350x500/FCA5A5/DC2626.png?text=Advanced+Calculus&font=roboto"
   },
   {
+    pid: 13,
     title: "The Whispering Shadows",
     author: "Anonymous Writer",
     category: "Fiction",
@@ -222,6 +240,7 @@ const initialBookData = [
     imageUrl: "https://placehold.co/350x500/E9D5FF/7E22CE.png?text=Whispering+Shadows&font=roboto"
   },
   {
+    pid: 14,
     title: "10 Days to Absolute Enlightenment",
     author: "Guru Peace",
     category: "Non-Fiction",
@@ -239,6 +258,7 @@ const initialBookData = [
 ]
 
 function App() {
+  
   const [cartData, setCartData] = useState([])
   const [wishlistData, setWishlistData] = useState([])
   const [category, setCategory] = useState([])
@@ -287,10 +307,12 @@ function App() {
     // Find the item from your source data and add it
     const itemToAdd = initialBookData.find((book) => book.title === selectedItem);
     if (itemToAdd) {
-      setCartData([...cartData, { ...itemToAdd, quantity: 1 }]);
+      setCartData([...cartData, { ...itemToAdd, quantity: 1}]);
     }
   }
   }
+
+  
 
   //handles wishlist
   function toggleAddToWishlist(selectedItem) {
@@ -336,8 +358,27 @@ function App() {
       setCartData(cartData.filter((book) => book.title !== selectedItem));
     }
   }
+
+  
+
   return (
-    <ecommContext.Provider value={{ filteredBooks, cartData, wishlistData, category, rating, sort, setSort, setRating, handleCategoryFilter, toggleAddToCart, toggleAddToWishlist, moveItemToCart, moveItemToWishlist }}>
+    <ecommContext.Provider value={{
+      initialBookData, 
+      filteredBooks, 
+      cartData, 
+      wishlistData, 
+      category, 
+      rating, 
+      sort, 
+      setSort, 
+      setRating,
+      setCartData,
+      handleCategoryFilter, 
+      toggleAddToCart, 
+      toggleAddToWishlist, 
+      moveItemToCart, 
+      moveItemToWishlist
+    }}>
       <RouterProvider router={router} />
     </ecommContext.Provider>
   )

@@ -14,9 +14,9 @@ const Nav = () => {
                         <Link className="logo" to="/">epistemology.com</Link>
                     </div>
                     <div className="d-flex align-items-center">
-                        <NavLink to="/wishlist" className="nav-link pe-3">Wishlist <span>({wishlistData.length})</span></NavLink>
+                        <NavLink to="/wishlist" className="nav-link pe-3">Wishlist({wishlistData.length})</NavLink>
                         <NavLink to="/cart" className="nav-link pe-3">
-                            Cart <span>({cartData.length})</span>
+                            Cart({cartData.length})
                         </NavLink>
                     </div>
                 </div>

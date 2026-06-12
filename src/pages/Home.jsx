@@ -25,7 +25,7 @@ const Home = () => {
             <Nav />
             <div className="container py-2">
                 <div className="row">
-                    <div className="col-md-3 my-4 sticky-md-top" style={{ top: "7rem", height: "calc(100vh - 7rem)", overflowY: "auto" }}>
+                    <div className="col-md-3 my-4 sticky-md-top d-none d-md-block" style={{ top: "7rem", height: "calc(100vh - 7rem)", overflowY: "auto" }}>
                         <div>
                             <span className="fs-4 fw-medium">Category: </span>
                             <br />
@@ -56,23 +56,26 @@ const Home = () => {
                             <input type="radio" value="HIGH_TO_LOW" name="sortByPrice" checked={sort === "HIGH_TO_LOW"} onChange={(event) => setSort(event.target.value)} /> <label htmlFor="sortByPrice">Price: High to Low</label>
                         </div>
                     </div>
-                    <div className="col-md-9">
+                    <div className="col-12 col-md-9">
                         <div className="row">
                             {filteredBooks.map((book) => (
                                 <div className="col-md-4 mb-4 d-flex align-items-stretch">
                                     <div className="px-3 py-3 d-flex flex-column w-100">
+                                        <Link to={`/book/${book.pid}`}>
                                         <img
                                             src={book.imageUrl}
                                             style={{ width: "100%", height: "300px", objectFit: "cover" }}
                                             className="img-fluid rounded mb-2"
                                             alt={book.title}
                                         />
-
+                                        </Link>
                                         {/* Title and Author container */}
                                         <div className="mb-auto">
+                                            <Link to={`/book/${book.pid}`} className="text-decoration-none text-reset">
                                             <h6 className="fw-semibold mb-1">
                                                 {book.title}
                                             </h6>
+                                            </Link>
                                             <span className="text-muted small d-block">by {book.author}</span>
                                         </div>
                                         {/* Rating container */}

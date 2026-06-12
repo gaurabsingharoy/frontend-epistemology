@@ -4,6 +4,7 @@ import Nav from "../components/Nav"
 import ecommContext from "../contexts/ContextProvider";
 
 const Cart = () => {
+    
     const RatingDisplay = ({ rating }) => {
 
         let stars = [];
@@ -20,8 +21,9 @@ const Cart = () => {
     }
     const { cartData, toggleAddToCart, moveItemToWishlist } = useContext(ecommContext);
     console.log(cartData)
-    const cartTotalPrice = cartData.reduce((acc, curr) => acc + curr.price, 0)
-    const cartDiscountedPrice = cartData.reduce((acc, curr) => acc + curr.discountedPrice, 0)
+    const totalItems = cartData.reduce((acc, curr) => acc + (curr.quantity || 1), 0)
+    const cartTotalPrice = cartData.reduce((acc, curr) => acc + (curr.price * (curr.quantity || 1)), 0)
+    const cartDiscountedPrice = cartData.reduce((acc, curr) => acc + (curr.discountedPrice * (curr.quantity || 1)), 0)
     const totalDiscount = cartTotalPrice - cartDiscountedPrice
     const deliveryCharges = 499
     const totalAmount = cartDiscountedPrice + deliveryCharges
@@ -33,11 +35,11 @@ const Cart = () => {
                 <div className="row">
                     <div className="col-md-6">
                         {cartData.length > 0 ? (
-                            <ul className="">
+                            <>
                                 {cartData.map((book) => (
-                                    <div className="card mb-3 d-flex flex-row">
-                                                <img src={book.imageUrl} className="img-fluid rounded-start" style={{ width: "30%", objectFit: "cover" }} />
-                                            <div className="card-body py-3 px-3">
+                                    <div className="card mb-3 d-flex flex-row" style={{height: ""}}>
+                                                <img src={book.imageUrl} className="img-fluid rounded-start" style={{ width: "35%", objectFit: "cover" }} />
+                                            <div className="card-body py-3">
                                                     <span className="fs-6 fw-medium card-title">{book.title}</span>
                                                     <br />
                                                     <span className="">By {book.author}</span>
@@ -55,7 +57,7 @@ const Cart = () => {
                                             </div>
                                         </div>
                                 ))}
-                            </ul>
+                            </>
                         ) : (
                             <p>No item in the cart</p>
                         )}
@@ -70,7 +72,7 @@ const Cart = () => {
                                     <>
                                     <div className="py-3 d-flex flex-column gap-3 text-dark" style={{fontSize: "1rem"}}>
                                         <div className="d-flex justify-content-between align-items-center">
-                                            <span className="fw-normal text-secondary">Price ({cartData.length} item)</span>
+                                            <span className="fw-normal text-secondary">Price ({totalItems} item)</span>
                                             <span className="fw-normal">₹{cartTotalPrice}</span>
                                         </div>
                                         <div className="d-flex justify-content-between align-items-center">
