@@ -45,7 +45,7 @@ const Address = () => {
                                     <Link to="/updateAddress" onClick={() => editAddress(address.aid)} className="pe-2 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                                         Edit
                                     </Link>
-                                    <Link to="#" onClick={() => deleteAddress(address.aid)} className="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                    <Link to="/address" onClick={() => deleteAddress(address.aid)} className="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                                         Remove
                                     </Link>
                                 </div>
