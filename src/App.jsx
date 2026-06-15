@@ -3,11 +3,16 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import ecommContext from './contexts/ContextProvider';
 import BookDetails from './pages/BookDetails';
+import UserDetails from './pages/UserDetails';
+import Address from "./pages/Address";
+import AddAddress from './pages/AddAddress';
+import UpdateAddress from './pages/UpdateAddress';
 import Cart from "./pages/Cart";
 import Wishlist from './pages/Wishlist';
 import Home from './pages/Home';
 
 import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/js/bootstrap.min.js"
 import './App.css'
 
 const router = createBrowserRouter([
@@ -26,8 +31,63 @@ const router = createBrowserRouter([
   {
     path: "/book/:bookId",
     element: <BookDetails />
+  },
+  {
+    path: "/userDetails",
+    element: <UserDetails />
+  },
+  {
+    path: "/address",
+    element: <Address />
+  },
+  {
+    path: "/addAddress",
+    element: <AddAddress />
+  },
+  {
+    path: "/updateAddress",
+    element: <UpdateAddress />
   }
 ])
+
+const addressData = [
+  {
+    aid: 1,
+    firstName: "Gaurab",
+    secondName: "Singha Roy",
+    address1: "H.No. 35",
+    address2: "Shree Sai Layout, Kanakapura Road, Basavangudi",
+    city: "Bangalore",
+    state: "Karnataka",
+    country: "India",
+    pin: "560004",
+    phone: "9192939495"
+  },
+  {
+    aid: 2,
+    firstName: "Jayesh",
+    secondName: "Mathur",
+    address1: "224, Hotel Centrum",
+    address2: "Delhi Road, Colony",
+    city: "Roorkee",
+    state: "Uttarakhand",
+    country: "India",
+    pin: "247667",
+    phone: "7172737475"
+  },
+  {
+    aid: 3,
+    firstName: "Sushmita",
+    secondName: "Krishnan",
+    address1: "H.No. 09",
+    address2: "Green Gardens Layout, Manipa Country Road, Singasandra",
+    city: "Bangalore",
+    state: "Karnataka",
+    country: "India",
+    pin: "560068",
+    phone: "8182838485"
+  }
+]
 
 const initialBookData = [
   {
@@ -258,12 +318,25 @@ const initialBookData = [
 ]
 
 function App() {
-  
+
   const [cartData, setCartData] = useState([])
+  const [address, setAddress] = useState(addressData)
   const [wishlistData, setWishlistData] = useState([])
   const [category, setCategory] = useState([])
   const [rating, setRating] = useState(0)
   const [sort, setSort] = useState("")
+  const [updatedAddressData, setUpdatedAddressData] = useState({})
+  const [formData, setFormData] = useState({
+    country: "",
+    firstName: "",
+    secondName: "",
+    phone: "",
+    pin: "",
+    address1: "",
+    address2: "",
+    city: "",
+    state: ""
+  })
 
   let filteredBooks = [...initialBookData];
 
@@ -292,27 +365,27 @@ function App() {
       setCategory([...category, value])
     } else {
       setCategory(category.filter((item) => item !== value))
-    } 
+    }
   }
 
   //handles cart
   function toggleAddToCart(selectedItem) {
     // Check if the item is already in the cart
-  const isAlreadyInCart = cartData.some((book) => book.title === selectedItem);
+    const isAlreadyInCart = cartData.some((book) => book.title === selectedItem);
 
-  if (isAlreadyInCart) {
-    // Remove it from the cart
-    setCartData(cartData.filter((book) => book.title !== selectedItem));
-  } else {
-    // Find the item from your source data and add it
-    const itemToAdd = initialBookData.find((book) => book.title === selectedItem);
-    if (itemToAdd) {
-      setCartData([...cartData, { ...itemToAdd, quantity: 1}]);
+    if (isAlreadyInCart) {
+      // Remove it from the cart
+      setCartData(cartData.filter((book) => book.title !== selectedItem));
+    } else {
+      // Find the item from your source data and add it
+      const itemToAdd = initialBookData.find((book) => book.title === selectedItem);
+      if (itemToAdd) {
+        setCartData([...cartData, { ...itemToAdd, quantity: 1 }]);
+      }
     }
   }
-  }
 
-  
+
 
   //handles wishlist
   function toggleAddToWishlist(selectedItem) {
@@ -326,18 +399,18 @@ function App() {
       // Find the item from your source data and add it
       const itemToAdd = initialBookData.find((book) => book.title === selectedItem);
       if (itemToAdd) {
-        setWishlistData([...wishlistData, {...itemToAdd, quantity: 1}]);
+        setWishlistData([...wishlistData, { ...itemToAdd, quantity: 1 }]);
       }
     }
   }
 
   //handles wishlist and cart when moving items to cart
-  function moveItemToCart (selectedItem) {
+  function moveItemToCart(selectedItem) {
     const itemToMove = wishlistData.find((book) => book.title === selectedItem);
     const isAlreadyInCart = cartData.some((book) => book.title === selectedItem);
 
     if (!isAlreadyInCart) {
-      setCartData([...cartData, {...itemToMove, quantity: 1}]);
+      setCartData([...cartData, { ...itemToMove, quantity: 1 }]);
     } else {
       const updatedCartData = cartData.map((book) => book.title === selectedItem ? { ...book, quantity: (book.quantity || 1) + 1 } : book);
       setCartData(updatedCartData);
@@ -347,36 +420,113 @@ function App() {
   }
 
   //handles wishlist and cart when moving items to wishlist
-  function moveItemToWishlist (selectedItem) {
+  function moveItemToWishlist(selectedItem) {
     const itemToMove = cartData.find((book) => book.title === selectedItem);
     const isAlreadyInWishlist = wishlistData.some((book) => book.title === selectedItem);
 
     if (!isAlreadyInWishlist) {
-      setWishlistData([...wishlistData, {...itemToMove, quantity: 1}]);
+      setWishlistData([...wishlistData, { ...itemToMove, quantity: 1 }]);
       setCartData(cartData.filter((book) => book.title !== selectedItem));
     } else {
       setCartData(cartData.filter((book) => book.title !== selectedItem));
     }
   }
 
-  
+  //handles form data on change in event
+  function addressHandler(event) {
+    const { id, value } = event.target;
+    const key = id;
+    setFormData((prevState) => ({
+      ...prevState,
+      [key]: value,
+    }))
+  }
+
+  //handles address edits on submission
+  function editAddressHandler(event) {
+    event.preventDefault();
+
+    const editedAddress = {
+      ...formData,
+      aid: updatedAddressData.aid
+    }
+
+    const editedAddressData = address.map((item) => item.aid === updatedAddressData.aid ? editedAddress : item);
+
+    setAddress(editedAddressData)
+  }
+
+  //handles form data on submit
+  function addressFormHandler(event) {
+    event.preventDefault();
+    const existingData = address;
+
+    const newAddressWithPid = {
+      aid: existingData.length + 1,
+      ...formData
+    };
+
+    const updatedData = [...existingData, newAddressWithPid];
+    setAddress(updatedData)
+    setFormData({
+      country: "",
+      firstName: "",
+      secondName: "",
+      phone: "",
+      pin: "",
+      address1: "",
+      address2: "",
+      city: "",
+      state: ""
+    })
+  }
+
+  function editAddress(addressId) {
+    const addressToUpdate = address.find((address) => addressId == address.aid)
+    setFormData({
+      country: addressToUpdate.country,
+      firstName: addressToUpdate.firstName,
+      secondName: addressToUpdate.secondName,
+      phone: addressToUpdate.phone,
+      pin: addressToUpdate.pin,
+      address1: addressToUpdate.address1,
+      address2: addressToUpdate.address2,
+      city: addressToUpdate.city,
+      state: addressToUpdate.state
+    })
+
+    setUpdatedAddressData(addressToUpdate)
+  }
+
+  //handles address deletion
+  function deleteAddress(selectedId) {
+    const addressToDelete = address.filter((item) => selectedId !== item.aid);
+    setAddress(addressToDelete);
+  }
 
   return (
     <ecommContext.Provider value={{
-      initialBookData, 
-      filteredBooks, 
-      cartData, 
-      wishlistData, 
-      category, 
-      rating, 
-      sort, 
-      setSort, 
+      initialBookData,
+      filteredBooks,
+      address,
+      cartData,
+      formData,
+      wishlistData,
+      category,
+      rating,
+      sort,
+      setSort,
       setRating,
+      editAddress,
       setCartData,
-      handleCategoryFilter, 
-      toggleAddToCart, 
-      toggleAddToWishlist, 
-      moveItemToCart, 
+      deleteAddress,
+      addressHandler,
+      editAddressHandler,
+      addressFormHandler,
+      handleCategoryFilter,
+      toggleAddToCart,
+      toggleAddToWishlist,
+      moveItemToCart,
       moveItemToWishlist
     }}>
       <RouterProvider router={router} />
