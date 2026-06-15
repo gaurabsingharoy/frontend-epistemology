@@ -4,7 +4,7 @@ import Nav from "../components/Nav";
 import ecommContext from "../contexts/ContextProvider";
 
 const Address = () => {
-    const { address, editAddress, deleteAddress } = useContext(ecommContext);
+    const { address, editAddress, deleteAddress, isDefaultHandler } = useContext(ecommContext);
 
     return (
         <div>
@@ -42,12 +42,20 @@ const Address = () => {
 
                                 {/* FIX 2: Added mt-auto and pt-3 to seamlessly push links to the bottom */}
                                 <div className="mt-auto pt-3">
-                                    <Link to="/updateAddress" onClick={() => editAddress(address.aid)} className="pe-2 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                    <Link to="/updateAddress" onClick={() => editAddress(address.aid)} className="pe-1 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                                         Edit
-                                    </Link>
-                                    <Link to="/address" onClick={() => deleteAddress(address.aid)} className="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                    </Link> <span className="pe-2">|</span>
+                                    <Link to="/address" onClick={() => deleteAddress(address.aid)} className="pe-1 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                                         Remove
                                     </Link>
+                                    {address.isDefault === false ? (
+                                        <>
+                                            <span className="pe-2">|</span>
+                                            <Link to="/address" onClick={() => isDefaultHandler(address.aid)} className="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                            Set as default
+                                            </Link>
+                                        </>
+                                    ) : ("")}
                                 </div>
                             </div>
                         </div>

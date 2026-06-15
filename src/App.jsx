@@ -61,7 +61,8 @@ const addressData = [
     state: "Karnataka",
     country: "India",
     pin: "560004",
-    phone: "9192939495"
+    phone: "9192939495",
+    isDefault: true
   },
   {
     aid: 2,
@@ -73,7 +74,8 @@ const addressData = [
     state: "Uttarakhand",
     country: "India",
     pin: "247667",
-    phone: "7172737475"
+    phone: "7172737475",
+    isDefault: false
   },
   {
     aid: 3,
@@ -85,7 +87,8 @@ const addressData = [
     state: "Karnataka",
     country: "India",
     pin: "560068",
-    phone: "8182838485"
+    phone: "8182838485",
+    isDefault: false
   }
 ]
 
@@ -504,6 +507,25 @@ function App() {
     setAddress(addressToDelete);
   }
 
+  //handles isDefault state of address
+  function isDefaultHandler(selectedId) {
+    const updatedAddressState = address.map((item) => {
+      if(selectedId !== item.aid) {
+        return {
+          ...item,
+          isDefault: false
+        }
+      } else {
+        return {
+          ...item,
+          isDefault: true
+        }
+      }
+    })
+
+    setAddress(updatedAddressState)
+  }
+
   return (
     <ecommContext.Provider value={{
       initialBookData,
@@ -521,6 +543,7 @@ function App() {
       setCartData,
       deleteAddress,
       addressHandler,
+      isDefaultHandler,
       editAddressHandler,
       addressFormHandler,
       handleCategoryFilter,
