@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 import Nav from "../components/Nav"
 import ecommContext from "../contexts/ContextProvider";
@@ -31,7 +32,7 @@ const Cart = () => {
         <div className="">
             <Nav />
             <div className="container py-3 mb-3">
-                <h1>My Cart ({cartData.length > 0 ? cartData.length : "0"})</h1>
+                <h1 className="my-4 fw-bold">My Cart ({cartData.length > 0 ? cartData.length : "0"})</h1>
                 <div className="row">
                     <div className="col-md-6">
                         {cartData.length > 0 ? (
@@ -92,7 +93,7 @@ const Cart = () => {
                                         </div>
                                         <hr className="text-muted opacity-25 mt-3 "/>
                                         <span className="text-muted" style={{fontSize: "1rem"}}>You saved ₹{totalDiscount} on this order</span>
-                                        <button className="btn btn-warning w-100 mt-3 disabled">Proceed to Checkout</button>
+                                        <Link to="/checkout" className="btn btn-warning w-100 mt-3">Proceed to Checkout</Link>
                                     </div>
                                     </>
                                     ) : (

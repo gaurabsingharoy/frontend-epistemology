@@ -9,7 +9,7 @@ const Wishlist = () => {
         <>
             <Nav />
             <div className="container py-3 mb-3">
-                <h1>My Wishlist ({wishlistData.length > 0 ? wishlistData.length : "0"})</h1>
+                <h1 className="my-4 fw-bold">My Wishlist ({wishlistData.length > 0 ? wishlistData.length : "0"})</h1>
                 {wishlistData.length > 0 ? (
                     <div className="row">
                         {wishlistData.map((book) => (
