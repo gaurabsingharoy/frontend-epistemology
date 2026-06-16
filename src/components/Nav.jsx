@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { NavLink } from "react-router-dom"
 import { useContext } from "react";
-
+import epistemology_favicon from "../assets/epistemology_favicon.png"
 import userIcon from "../assets/userIcon.png"
 
 import ecommContext from "../contexts/ContextProvider";
@@ -12,8 +12,8 @@ const Nav = () => {
         <header className="sticky-top border-bottom bg-white" style={{ zIndex: 1030 }}>
             <nav className="navbar navbar-expand-md navbar-light bg-white py-2">
                 <div className="container">
-                    <div>
-                        <Link className="logo" to="/">epistemology.com</Link>
+                    <div className="">
+                        <Link className="logo" to="/"><img src={epistemology_favicon} className="img-fluid" style={{height: "2.5rem", width: "2.5rem"}}/><span className="ps-2">epistemology.com</span></Link>
                     </div>
                     {/* MOBILE HAMBURGER BUTTON (Visible on small devices, hidden on md+) */}
                     <button 
