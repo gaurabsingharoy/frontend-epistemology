@@ -52,7 +52,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/checkout",
-    element: <Checkout/>
+    element: <Checkout />
   }
 ])
 
@@ -516,7 +516,7 @@ function App() {
   //handles isDefault state of address
   function isDefaultHandler(selectedId) {
     const updatedAddressState = address.map((item) => {
-      if(selectedId !== item.aid) {
+      if (selectedId !== item.aid) {
         return {
           ...item,
           isDefault: false
@@ -545,6 +545,7 @@ function App() {
       sort,
       setSort,
       setRating,
+      setCategory,
       editAddress,
       setCartData,
       deleteAddress,

@@ -30,7 +30,7 @@ const Checkout = () => {
                 <div className="app">
                     <h2 className="fs-5 fw-bold mb-2">Delivery Address</h2>
                     
-                    {/* Fixed: Removed 'h-100' here since there is no wrapper row forcing height constraints */}
+                    
                     <div className="card p-3 mb-4 shadow-sm">
                         <p className="fw-semibold d-block mb-1 text-dark">
                             {deliveryAddress?.firstName} {deliveryAddress?.secondName}
@@ -72,7 +72,7 @@ const Checkout = () => {
 
                     <h2 className="fs-5 fw-bold mb-2">Review Items</h2>
                     {cartData.map((book, index) => (
-                        /* FIX: Transformed into a clean grid container with overflow hidden to respect image borders */
+                        
                         <div className="card mb-3 shadow-sm overflow-hidden" key={index}>
                             <div className="row g-0 align-items-center">
                                 
@@ -82,12 +82,12 @@ const Checkout = () => {
                                         src={book.imageUrl} 
                                         className="img-fluid w-100" 
                                         alt={book.title}
-                                        /* FIX: Removed '400px' height constraint. It now adapts fluidly to column width. */
+                                        
                                         style={{ height: "100%", minHeight: "200px", maxHeight: "250px", objectFit: "cover" }} 
                                     />
                                 </div>
                                 
-                                {/* Text Details Column: Takes remaining slots */}
+                                
                                 <div className="col-8 col-sm-9 col-md-10">
                                     <div className="card-body py-3">
                                         <h3 className="fs-6 fw-bold card-title mb-1 text-dark">{book.title}</h3>
