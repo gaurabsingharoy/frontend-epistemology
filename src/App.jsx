@@ -10,6 +10,7 @@ import UpdateAddress from './pages/UpdateAddress';
 import Cart from "./pages/Cart";
 import Checkout from './pages/Checkout';
 import Wishlist from './pages/Wishlist';
+import ProductListing from './pages/ProductListing';
 import Home from './pages/Home';
 
 import "bootstrap/dist/css/bootstrap.min.css"
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />
+  },
+  {
+    path: "/productListing",
+    element: <ProductListing />
   },
   {
     path: "/wishlist",
@@ -112,6 +117,7 @@ const initialBookData = [
     ],
     price: 699,
     discountedPrice: 629,
+    isNewArrival: true,
     inStock: "true",
     imageUrl: "https://placehold.co/350x500/e0e0e0/606060.png?text=Zero+To+One&font=roboto"
 
@@ -129,6 +135,7 @@ const initialBookData = [
     ],
     price: 699,
     discountedPrice: 629,
+    isNewArrival: true,
     inStock: "true",
     imageUrl: "https://placehold.co/350x500/e0e0e0/606060.png?text=Mr.Feynman&font=roboto"
   },
@@ -145,6 +152,7 @@ const initialBookData = [
     ],
     price: 999,
     discountedPrice: 799,
+    isNewArrival: false,
     inStock: "true",
     imageUrl: "https://placehold.co/350x500/e0e0e0/606060.png?text=QA+for+CAT&font=roboto"
   },
@@ -161,6 +169,7 @@ const initialBookData = [
     ],
     price: 999,
     discountedPrice: 799,
+    isNewArrival: false,
     inStock: "true",
     imageUrl: "https://placehold.co/350x500/e0e0e0/606060.png?text=VARC+for+CAT&font=roboto"
   },
@@ -177,6 +186,7 @@ const initialBookData = [
     ],
     price: 699,
     discountedPrice: 629,
+    isNewArrival: false,
     inStock: "true",
     imageUrl: "https://placehold.co/350x500/e0e0e0/606060.png?text=Mockingbird&font=roboto"
   },
@@ -193,6 +203,7 @@ const initialBookData = [
     ],
     price: 599,
     discountedPrice: 479,
+    isNewArrival: true,
     inStock: "true",
     imageUrl: "https://placehold.co/350x500/C2FFD9/0B6623.png?text=Atomic+Habits&font=roboto"
   },
@@ -209,6 +220,7 @@ const initialBookData = [
     ],
     price: 799,
     discountedPrice: 699,
+    isNewArrival: false,
     inStock: "true",
     imageUrl: "https://placehold.co/350x500/C2FFD9/0B6623.png?text=Lean+Startup&font=roboto"
   },
@@ -225,6 +237,7 @@ const initialBookData = [
     ],
     price: 899,
     discountedPrice: 749,
+    isNewArrival: false,
     inStock: "true",
     imageUrl: "https://placehold.co/350x500/FFE4C4/8B4513.png?text=DILR+for+CAT&font=roboto"
   },
@@ -241,6 +254,7 @@ const initialBookData = [
     ],
     price: 499,
     discountedPrice: 399,
+    isNewArrival: false,
     inStock: "true",
     imageUrl: "https://placehold.co/350x500/FFC1C1/A30000.png?text=1984&font=roboto"
   },
@@ -257,6 +271,7 @@ const initialBookData = [
     ],
     price: 450,
     discountedPrice: 380,
+    isNewArrival: true,
     inStock: "true",
     imageUrl: "https://placehold.co/350x500/E6E6FA/4B0082.png?text=Psych+Money&font=roboto"
   },
@@ -273,6 +288,7 @@ const initialBookData = [
     ],
     price: 399,
     discountedPrice: 349,
+    isNewArrival: false,
     inStock: "true",
     imageUrl: "https://placehold.co/350x500/FFD2A6/D97706.png?text=Making+Money+Quick&font=roboto"
   },
@@ -289,6 +305,7 @@ const initialBookData = [
     ],
     price: 650,
     discountedPrice: 599,
+    isNewArrival: false,
     inStock: "true",
     imageUrl: "https://placehold.co/350x500/FCA5A5/DC2626.png?text=Advanced+Calculus&font=roboto"
   },
@@ -305,6 +322,7 @@ const initialBookData = [
     ],
     price: 299,
     discountedPrice: 199,
+    isNewArrival: false,
     inStock: "true",
     imageUrl: "https://placehold.co/350x500/E9D5FF/7E22CE.png?text=Whispering+Shadows&font=roboto"
   },
@@ -321,6 +339,7 @@ const initialBookData = [
     ],
     price: 499,
     discountedPrice: 249,
+    isNewArrival: false,
     inStock: "true",
     imageUrl: "https://placehold.co/350x500/CBD5E1/475569.png?text=Absolute+Enlightenment&font=roboto"
   }
@@ -334,6 +353,7 @@ function App() {
   const [category, setCategory] = useState([])
   const [rating, setRating] = useState(0)
   const [sort, setSort] = useState("")
+  const [maxPrice, setMaxPrice] = useState(1000)
   const [updatedAddressData, setUpdatedAddressData] = useState({})
   const [formData, setFormData] = useState({
     country: "",
@@ -353,6 +373,9 @@ function App() {
   if (category.length > 0) {
     filteredBooks = filteredBooks.filter((book) => category.includes(book.category));
   }
+
+  //price filter
+  filteredBooks = filteredBooks.filter((book) => book.discountedPrice <= maxPrice);
 
   //rating filter if active
   if (rating > 0) {
@@ -543,6 +566,8 @@ function App() {
       category,
       rating,
       sort,
+      maxPrice,
+      setMaxPrice,
       setSort,
       setRating,
       setCategory,
