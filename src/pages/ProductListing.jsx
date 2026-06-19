@@ -6,6 +6,7 @@ import ecommContext from "../contexts/ContextProvider";
 
 // Helper Filter Component
 const FilterContent = ({ groupSuffix, category, rating, setRating, sort, setSort, handleCategoryFilter, setCategory, maxPrice, setMaxPrice }) => {
+    const percentage = ((maxPrice - 0) / (1000 - 0)) * 100;
     function handleClearFilters() {
         setRating(0);
         setSort("");
@@ -19,22 +20,28 @@ const FilterContent = ({ groupSuffix, category, rating, setRating, sort, setSort
                 <Link className="fs-5 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" onClick={handleClearFilters}>Clear</Link>
             </div>
             <div className="mt-2">
-                <label htmlFor={`price-range-${groupSuffix}`} className="fs-5 fw-semibold">Price</label>
-                <div className="d-flex justify-content-between align-items-center my-auto text-muted">
-                    <span>₹0</span>
-                    <span>₹500</span>
-                    <span>₹1000</span>
+                <label htmlFor={`price-range-${groupSuffix}`} className="fs-5 fw-semibold mb-2 d-block">
+                    Price
+                </label>
+                <div className="d-flex justify-content-between align-items-center">
+                    <span className="text-muted">₹0</span>
+                    <span className="text-muted">₹1000</span>
                 </div>
-                <input
-                    type="range"
-                    className="form-range border-0"
-                    min="0"
-                    max="1000"
-                    step="100"
-                    id={`price-range-${groupSuffix}`}
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(Number(e.target.value))}
-                />
+                <div className="position-relative">
+                    <input
+                        type="range"
+                        className="progressive-range"
+                        min="0"
+                        max="1000"
+                        step="100"
+                        id={`price-range-${groupSuffix}`}
+                        value={maxPrice}
+                        onChange={(e) => setMaxPrice(Number(e.target.value))}
+                        style={{
+                            background: `linear-gradient(to right, #0d6efd 0%, #0d6efd ${percentage}%, #ffffff ${percentage}%, #ffffff 100%)`
+                        }}
+                    />
+                </div>
             </div>
             <div className="mt-2">
                 <p className="fs-5 fw-semibold">Category</p>

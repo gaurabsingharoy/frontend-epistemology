@@ -1,6 +1,43 @@
 /* Import Roboto font */
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
+/* Container override to lock the track background size */
+.progressive-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 0.5rem !important;
+  /* Forces the input box to match Bootstrap's track height (8px) */
+  border-radius: 5rem;
+  padding: 0 !important;
+  margin: 1rem 0;
+  /* Adds spacing around it since height is compressed */
+}
+
+/* Ensures the draggable thumb remains circular and doesn't get clipped */
+.progressive-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: #0d6efd;
+  /* Matches Bootstrap primary blue */
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.progressive-range::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: #0d6efd;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
 .counter {
   font-size: 16px;
   padding: 5px 10px;
@@ -238,7 +275,7 @@ button {
 }
 
 input {
-  
+
   color: #2e3440;
 }
 
@@ -312,7 +349,7 @@ nav a:hover {
 /* Layout Adjustments for Large Screens */
 @media (min-width: 1024px) {
   nav {
-    
+
     margin: 0 auto;
   }
 
