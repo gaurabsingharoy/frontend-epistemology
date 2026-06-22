@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 
@@ -75,7 +76,8 @@ const FilterContent = ({ groupSuffix, category, rating, setRating, sort, setSort
 
 const ProductListing = () => {
     const { filteredBooks, loading, setCategory, cartData, wishlistData, category, rating, setRating, sort, setSort, handleCategoryFilter, toggleAddToCart, toggleAddToWishlist, maxPrice, setMaxPrice } = useContext(ecommContext);
-
+    const [searchQuery, setSearchQuery] = useState("");
+    const searchedBooks = filteredBooks?.filter((book) => book.title?.toLowerCase().includes(searchQuery.toLowerCase()) || book.category?.name?.toLowerCase().includes(searchQuery.toLowerCase()));
     const RatingDisplay = ({ rating }) => {
         let stars = [];
         for (let i = 0; i < 5; i++) {
@@ -125,15 +127,15 @@ const ProductListing = () => {
             ));
         }
 
-        if (filteredBooks.length === 0) {
+        if (searchedBooks.length === 0) {
             return (
-                <div className="col-12 text-center py-5">
-                    <h4 className="text-muted fw-normal">No books found matching the selected filters.</h4>
+                <div className="col-12 justify-content-center align-items-center text-center py-5">
+                    <h4 className="text-muted fw-normal">No books found matching "{searchQuery}".</h4>
                 </div>
             );
         }
 
-        return filteredBooks.map((book, index) => (
+        return searchedBooks.map((book, index) => (
             <div className="col mb-4 d-flex align-items-stretch" key={book._id || index}>
                 <div className="px-1 py-3 d-flex flex-column w-100 card p-2 border-0">
                     <Link to={`/book/${book._id}`}>
@@ -242,9 +244,29 @@ const ProductListing = () => {
 
                     {/* 4. Product Listings */}
                     <div className="col-12 col-md-9">
-                        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                            {renderBooks()}
+                        <div className="d-flex justify-content-end align-items-center mt-3">
+                            <div className="col-12 col-md-5">
+                                <div className="input-group">
+                                    <input
+                                        type="text"
+                                        className="form-control rounded-0 border-1"
+                                        placeholder="Search by title and tags... "
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                    />
+                                </div>
+                            </div>
                         </div>
+                        {!loading && searchedBooks.length === 0 ? (
+                            <div className="col-12 justify-content-center align-items-center text-center py-5">
+                                <h4 className="text-muted fw-normal">No books found matching "{searchQuery}".</h4>
+                            </div>
+                        ) : (
+                            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                                {renderBooks()}
+                            </div>
+                        )}
+
                     </div>
 
                 </div>
