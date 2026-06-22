@@ -74,7 +74,7 @@ const FilterContent = ({ groupSuffix, category, rating, setRating, sort, setSort
 };
 
 const ProductListing = () => {
-    const { filteredBooks, setCategory, cartData, wishlistData, category, rating, setRating, sort, setSort, handleCategoryFilter, toggleAddToCart, toggleAddToWishlist, maxPrice, setMaxPrice } = useContext(ecommContext);
+    const { filteredBooks, loading, setCategory, cartData, wishlistData, category, rating, setRating, sort, setSort, handleCategoryFilter, toggleAddToCart, toggleAddToWishlist, maxPrice, setMaxPrice } = useContext(ecommContext);
 
     const RatingDisplay = ({ rating }) => {
         let stars = [];
@@ -89,6 +89,106 @@ const ProductListing = () => {
         }
         return <span>{stars.join("")}</span>
     }
+
+    const renderBooks = () => {
+        if (loading) {
+            return Array.from({ length: 6 }).map((_, index) => (
+                <div className="col mb-4 d-flex align-items-stretch" key={index}>
+                    <div className="px-1 py-3 d-flex flex-column w-100 card p-2 border-0 placeholder-glow" aria-hidden="true">
+                        {/* Image Placeholder */}
+                        <div className="placeholder rounded mb-2 w-100" style={{ height: "300px" }}></div>
+
+                        {/* Title and Author Placeholder */}
+                        <div className="mb-2">
+                            <span className="placeholder col-8 mb-1"></span>
+                            <span className="placeholder col-4 d-block"></span>
+                        </div>
+
+                        {/* Rating Placeholder */}
+                        <div className="mb-3">
+                            <span className="placeholder col-5"></span>
+                        </div>
+
+                        {/* Price and Action Buttons Placeholder */}
+                        <div className="mt-auto">
+                            <div className="mb-2">
+                                <span className="placeholder col-3"></span>
+                            </div>
+
+                            <div className="d-flex flex-column gap-2">
+                                <div className="placeholder col-12 py-2 rounded"></div>
+                                <div className="placeholder col-12 py-2 rounded"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ));
+        }
+
+        if (filteredBooks.length === 0) {
+            return (
+                <div className="col-12 text-center py-5">
+                    <h4 className="text-muted fw-normal">No books found matching the selected filters.</h4>
+                </div>
+            );
+        }
+
+        return filteredBooks.map((book, index) => (
+            <div className="col mb-4 d-flex align-items-stretch" key={book._id || index}>
+                <div className="px-1 py-3 d-flex flex-column w-100 card p-2 border-0">
+                    <Link to={`/book/${book._id}`}>
+                        <img
+                            src={book.imageUrl}
+                            style={{ width: "100%", height: "300px", objectFit: "cover" }}
+                            className="img-fluid rounded mb-2"
+                            alt={book.title}
+                        />
+                    </Link>
+
+                    {/* Title and Author container */}
+                    <div className="mb-2">
+                        <Link to={`/book/${book._id}`} className="text-decoration-none text-reset">
+                            <h6 className="fw-semibold mb-1 text-truncate">
+                                {book.title}
+                            </h6>
+                        </Link>
+                        <span className="text-muted small d-block">by {book.author}</span>
+                    </div>
+
+                    {/* Rating container */}
+                    <div className="mb-3">
+                        <span className="text-warning"><RatingDisplay rating={book.rating} /></span>
+                        <span className="text-muted fs-6 ms-1 fw-medium">{Number(book.rating).toFixed(1)}</span>
+                        <span className="text-muted small">/5</span>
+                    </div>
+
+                    {/* Price and Button container pushed to the bottom */}
+                    <div className="mt-auto">
+                        <div className="mb-2">
+                            <span className="fs-4 fw-bold text-primary">₹{book.discountedPrice}</span>
+                            {" "}
+                            <span className="text-muted text-decoration-line-through small">₹{book.price}</span>
+                        </div>
+
+                        {/* Action Buttons with added vertical padding gaps */}
+                        <div className="d-flex flex-column gap-2">
+                            {cartData.some((cartBook) => cartBook.title === book.title) ? (
+                                <button className="btn btn-sm btn-outline-dark disabled">Added to Cart</button>
+                            ) : (
+                                <button className="btn btn-sm btn-warning fw-medium" onClick={() => toggleAddToCart(book.title)}>Add to Cart</button>
+                            )}
+
+                            {wishlistData.some((wishlistBook) => wishlistBook.title === book.title) ? (
+                                <button className="btn btn-sm btn-outline-dark disabled">Saved in Wishlist</button>
+                            ) : (
+                                <button className="btn btn-sm btn-dark" onClick={() => toggleAddToWishlist(book.title)}>Save to Wishlist</button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        ));
+    };
 
     return (
         <div>
@@ -143,61 +243,7 @@ const ProductListing = () => {
                     {/* 4. Product Listings */}
                     <div className="col-12 col-md-9">
                         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                            {filteredBooks.map((book, index) => (
-                                <div className="col mb-4 d-flex align-items-stretch" key={book.pid || index}>
-                                    <div className="px-1 py-3 d-flex flex-column w-100 card p-2 border-0">
-                                        <Link to={`/book/${book.pid}`}>
-                                            <img
-                                                src={book.imageUrl}
-                                                style={{ width: "100%", height: "300px", objectFit: "cover" }}
-                                                className="img-fluid rounded mb-2"
-                                                alt={book.title}
-                                            />
-                                        </Link>
-
-                                        {/* Title and Author container */}
-                                        <div className="mb-2">
-                                            <Link to={`/book/${book.pid}`} className="text-decoration-none text-reset">
-                                                <h6 className="fw-semibold mb-1 text-truncate">
-                                                    {book.title}
-                                                </h6>
-                                            </Link>
-                                            <span className="text-muted small d-block">by {book.author}</span>
-                                        </div>
-
-                                        {/* Rating container */}
-                                        <div className="mb-3">
-                                            <span className="text-warning"><RatingDisplay rating={book.rating} /></span>
-                                            <span className="text-muted fs-6 ms-1 fw-medium">{Number(book.rating).toFixed(1)}</span>
-                                            <span className="text-muted small">/5</span>
-                                        </div>
-
-                                        {/* Price and Button container pushed to the bottom */}
-                                        <div className="mt-auto">
-                                            <div className="mb-2">
-                                                <span className="fs-4 fw-bold text-primary">₹{book.discountedPrice}</span>
-                                                {" "}
-                                                <span className="text-muted text-decoration-line-through small">₹{book.price}</span>
-                                            </div>
-
-                                            {/* Action Buttons with added vertical padding gaps */}
-                                            <div className="d-flex flex-column gap-2">
-                                                {cartData.some((cartBook) => cartBook.title === book.title) ? (
-                                                    <button className="btn btn-sm btn-outline-dark disabled">Added to Cart</button>
-                                                ) : (
-                                                    <button className="btn btn-sm btn-warning fw-medium" onClick={() => toggleAddToCart(book.title)}>Add to Cart</button>
-                                                )}
-
-                                                {wishlistData.some((wishlistBook) => wishlistBook.title === book.title) ? (
-                                                    <button className="btn btn-sm btn-outline-dark disabled">Saved in Wishlist</button>
-                                                ) : (
-                                                    <button className="btn btn-sm btn-dark" onClick={() => toggleAddToWishlist(book.title)}>Save to Wishlist</button>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
+                            {renderBooks()}
                         </div>
                     </div>
 

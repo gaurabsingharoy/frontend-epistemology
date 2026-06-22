@@ -39,11 +39,11 @@ const Home = () => {
                 <hr className="opacity-50" />
                 <div className="row row-cols-1 row-cols-sm-1 row-cols-md-2">
                     {initialBookData.filter((book) => book.isNewArrival == true).map((book) => (
-                        <div key={book.pid} className="col">
+                        <div key={book._id} className="col">
                             <div className="card mb-3 bg-dark text-light w-100">
                                 <div className="row">
                                     <div className="">
-                                        <Link to={`/book/${book.pid}`} className="text-decoration-none text-reset">
+                                        <Link to={`/book/${book._id}`} className="text-decoration-none text-reset">
                                             <div className="px-3 py-3">
                                                 <h3 className="fs-5 fw-semibold card-title mb-1 text-truncate">{book.title}</h3>
                                                 <p className="mb-2 text-light">By {book.author}</p>
