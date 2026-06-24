@@ -5,7 +5,7 @@ import Nav from "../components/Nav";
 import addressContext from "../contexts/AddressContext";
 
 const Address = () => {
-    const { address, editAddress, deleteAddress, isDefaultHandler } = useContext(addressContext);
+    const { initialAddress, loading, editAddress, deleteAddress, isDefaultHandler } = useContext(addressContext);
 
     return (
         <div>
@@ -27,40 +27,57 @@ const Address = () => {
                     </div>
 
                     {/* Dynamic Address Cards */}
-                    {address.map((address, index) => (
-                        <div className="col" key={index}>
-                            {/* FIX 1: Added d-flex flex-column to make inner layout flexible */}
-                            <div className="card h-100 p-3 shadow-sm d-flex flex-column">
-                                <strong className="d-block mb-1">
-                                    {address.firstName} {address.secondName}
-                                </strong>
-                                <span className="text-muted small">
-                                    {address.address1},<br />
-                                    {address.address2},<br />
-                                    {address.city}, {address.state}<br />
-                                    <strong>PIN:</strong> {address.pin}
-                                </span>
-
-                                {/* FIX 2: Added mt-auto and pt-3 to seamlessly push links to the bottom */}
-                                <div className="mt-auto pt-3">
-                                    <Link to="/updateAddress" onClick={() => editAddress(address.aid)} className="pe-1 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
-                                        Edit
-                                    </Link> <span className="pe-2">|</span>
-                                    <Link to="/address" onClick={() => deleteAddress(address.aid)} className="pe-1 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
-                                        Remove
-                                    </Link>
-                                    {address.isDefault === false ? (
-                                        <>
-                                            <span className="pe-2">|</span>
-                                            <Link to="/address" onClick={() => isDefaultHandler(address.aid)} className="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
-                                                Set as default
-                                            </Link>
-                                        </>
-                                    ) : ("")}
+                    {loading ? (
+                        Array.from({ length: 2 }).map((_, index) => (
+                            <div className="col" key={index}>
+                                <div className="card h-100 p-3 shadow-sm d-flex flex-column placeholder-glow" aria-hidden="true">
+                                    <strong className="placeholder col-8 mb-2 py-2 rounded"></strong>
+                                    <span className="placeholder col-10 mb-1 py-1 rounded"></span>
+                                    <span className="placeholder col-9 mb-1 py-1 rounded"></span>
+                                    <span className="placeholder col-6 mb-1 py-1 rounded"></span>
+                                    <div className="mt-auto pt-3">
+                                        <span className="placeholder col-3 py-1 rounded me-2"></span>
+                                        <span className="placeholder col-3 py-1 rounded"></span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))
+                    ) : (
+                        initialAddress.map((address, index) => (
+                            <div className="col" key={index}>
+                                {/* FIX 1: Added d-flex flex-column to make inner layout flexible */}
+                                <div className="card h-100 p-3 shadow-sm d-flex flex-column">
+                                    <strong className="d-block mb-1">
+                                        {address.firstName} {address.lastName}
+                                    </strong>
+                                    <span className="text-muted small">
+                                        {address.address1},<br />
+                                        {address.address2},<br />
+                                        {address.city}, {address.state}<br />
+                                        <strong>PIN:</strong> {address.pin}
+                                    </span>
+
+                                    {/* FIX 2: Added mt-auto and pt-3 to seamlessly push links to the bottom */}
+                                    <div className="mt-auto pt-3">
+                                        <Link to={`/updateAddress/${address._id}`} onClick={() => editAddress(address._id)} className="pe-1 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                            Edit
+                                        </Link> <span className="pe-2">|</span>
+                                        <Link onClick={() => deleteAddress(address._id)} className="pe-1 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                            Remove
+                                        </Link>
+                                        {address.isDefault === false ? (
+                                            <>
+                                                <span className="pe-2">|</span>
+                                                <Link onClick={() => isDefaultHandler(address._id)} className="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                                    Set as default
+                                                </Link>
+                                            </>
+                                        ) : ("")}
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
         </div>

@@ -7,10 +7,10 @@ import ecommContext from "../contexts/ContextProvider"
 
 const Checkout = () => {
     const { cartData } = useContext(ecommContext)
-    const { address } = useContext(addressContext)
+    const { initialAddress } = useContext(addressContext)
 
-    const deliveryAddress = address.find((item) => item.isDefault === true)
-    const otherAddresses = address.filter((item) => item.isDefault === false)
+    const deliveryAddress = initialAddress.find((item) => item.isDefault === true)
+    const otherAddresses = initialAddress.filter((item) => item.isDefault === false)
 
     const [newDeliveryAddress, setNewDeliveryAddress] = useState(deliveryAddress)
     const [delivery, setDelivery] = useState(false)
@@ -24,7 +24,7 @@ const Checkout = () => {
 
 
     function newDeliveryAddressHandler(selectedId) {
-        const toBeDelivered = address.find((item) => item.aid === selectedId)
+        const toBeDelivered = initialAddress.find((item) => item.aid === selectedId)
         setNewDeliveryAddress(toBeDelivered)
     }
 
@@ -44,7 +44,7 @@ const Checkout = () => {
 
                     <div className="card p-3 mb-4 shadow-sm">
                         <p className="fw-semibold d-block mb-1 text-dark">
-                            {newDeliveryAddress?.firstName} {newDeliveryAddress?.secondName}
+                            {newDeliveryAddress?.firstName} {newDeliveryAddress?.lastName}
                         </p>
                         <span className="text-muted small">
                             {newDeliveryAddress?.address1},{" "}

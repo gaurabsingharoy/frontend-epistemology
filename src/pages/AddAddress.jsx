@@ -7,7 +7,7 @@ import Nav from "../components/Nav";
 import addressContext from "../contexts/AddressContext";
 
 const AddAddress = () => {
-    const { address, formData, addressHandler, addressFormHandler } = useContext(addressContext)
+    const { initialAddress, formData, refetch, addressHandler, addressFormHandler } = useContext(addressContext)
     const [formSubmitted, setFormSubmitted] = useState(false)
 
     const handleSubmit = (event) => {
@@ -29,7 +29,7 @@ const AddAddress = () => {
                     <form onSubmit={handleSubmit}>
                         <h1 className="my-4 fw-bold">Add a new address</h1>
                         {formSubmitted && (
-                            <div className="alert alert-success">Address added successfully! <span>&mdash;</span> <Link to="/address">See addresses page</Link></div>
+                            <div className="alert alert-success">Address added successfully! <span>&mdash;</span> <Link to="/address" onClick={refetch}>See addresses page</Link></div>
                         )}
                         <label htmlFor="country" className="form-label">
                             Country/Region:{" "}
@@ -53,8 +53,8 @@ const AddAddress = () => {
                             onChange={handleChange}
                             className="form-control"
                         />
-                        <label htmlFor="secondName" className="form-label">Last Name</label>
-                        <input id="secondName" type="text" className="form-control" placeholder="Enter last name..." value={formData.secondName} onChange={handleChange} />
+                        <label htmlFor="lastName" className="form-label">Last Name</label>
+                        <input id="lastName" type="text" className="form-control" placeholder="Enter last name..." value={formData.lastName} onChange={handleChange} />
                         <label htmlFor="phone">Phone Number</label>
                         <input id="phone" type="number" value={formData.phone} onChange={handleChange} className="form-control" placeholder="e.g. 9192939495" />
                         <label htmlFor="pin" >Pincode</label>

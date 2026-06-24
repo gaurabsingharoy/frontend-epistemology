@@ -64,7 +64,7 @@ const router = createBrowserRouter([
         element: <AddAddress />
       },
       {
-        path: "/updateAddress",
+        path: "/updateAddress/:addressId",
         element: <UpdateAddress />
       },
       {

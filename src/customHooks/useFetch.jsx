@@ -3,6 +3,10 @@ const useFetch = (url, initialData) => {
   const [data, setData] = useState(initialData);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [trigger, setTrigger] = useState(false);
+
+  const refetch = () => setTrigger((prev) => !prev);
+
   useEffect(() => {
     setLoading(true);
     fetch(url)
@@ -12,7 +16,8 @@ const useFetch = (url, initialData) => {
       })
       .catch((error) => setError(error.message))
       .finally(() => setLoading(false));
-  }, [url]);
-  return { data, loading, error };
+  }, [url, trigger]);
+
+  return { data, loading, error, refetch };
 };
 export default useFetch;

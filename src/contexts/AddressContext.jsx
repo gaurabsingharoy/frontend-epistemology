@@ -6,7 +6,7 @@ import useFetch from "../customHooks/useFetch";
 const addressContext = createContext();
 
 export default addressContext;
-
+/*
 const initialAddress = [
     {
         aid: 1,
@@ -48,16 +48,18 @@ const initialAddress = [
         isDefault: false
     }
 ]
+*/
 
 export function AddressProvider({ children }) {
-    //const { data, loading, error } = useFetch("https://backend-epistemology.vercel.app/api/addresses")
-    //const initialAddress = data?.data?.addresses || [];
-    const [address, setAddress] = useState(initialAddress)
+    const { data, loading, error, refetch } = useFetch("https://backend-epistemology.vercel.app/api/addresses")
+    const initialAddress = data?.data?.addresses || [];
+    console.log(initialAddress)
+    //const [address, setAddress] = useState(initialAddress || [])
     const [updatedAddressData, setUpdatedAddressData] = useState({})
     const [formData, setFormData] = useState({
         country: "",
         firstName: "",
-        secondName: "",
+        lastName: "",
         phone: "",
         pin: "",
         address1: "",
@@ -77,36 +79,43 @@ export function AddressProvider({ children }) {
     }
 
     //handles address edits on submission
-    function editAddressHandler(event) {
+    async function editAddressHandler(event, addressId) {
         event.preventDefault();
-
+        /*
         const editedAddress = {
             ...formData,
-            aid: updatedAddressData.aid
+            _id: updatedAddressData._id
         }
 
-        const editedAddressData = address.map((item) => item.aid === updatedAddressData.aid ? editedAddress : item);
+        const editedAddressData = address.map((item) => item._id === updatedAddressData._id ? editedAddress : item);
 
         setAddress(editedAddressData)
-    }
+        */
+        try {
+            const response = await fetch(`https://backend-epistemology.vercel.app/api/address/${addressId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            })
 
-    //handles form data on submit
-    function addressFormHandler(event) {
-        event.preventDefault();
-        const existingData = address;
+            if (response.ok) {
+                throw "Failed to update address."
+            }
 
-        const newAddressWithPid = {
-            aid: existingData.length + 1,
-            ...formData,
-            isDefault: false
-        };
+            const data = await response.json()
 
-        const updatedData = [...existingData, newAddressWithPid];
-        setAddress(updatedData)
+            console.log("Updated address", data)
+
+        } catch (error) {
+            console.log(error);
+        }
+
         setFormData({
             country: "",
             firstName: "",
-            secondName: "",
+            lastName: "",
             phone: "",
             pin: "",
             address1: "",
@@ -116,12 +125,61 @@ export function AddressProvider({ children }) {
         })
     }
 
-    function editAddress(addressId) {
-        const addressToUpdate = address.find((address) => addressId == address.aid)
+    //handles form data on submit
+    async function addressFormHandler(event) {
+        event.preventDefault();
+        /*
+        const existingData = address;
+
+        const newAddressWithPid = {
+            _id: existingData.length + 1,
+            ...formData,
+            isDefault: false
+        };
+
+        const updatedData = [...existingData, newAddressWithPid];
+        setAddress(updatedData)
+        */
+        try {
+            const response = await fetch("https://backend-epistemology.vercel.app/api/address", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ ...formData, user: "6a3a7bf0aef9c2c97f85dd59" })
+            });
+
+            if (!response.ok) {
+                throw "Failed to add address."
+            }
+
+            const data = await response.json()
+
+            console.log("Added address", data)
+
+        } catch (error) {
+            console.log(error);
+        }
+
+        setFormData({
+            country: "",
+            firstName: "",
+            lastName: "",
+            phone: "",
+            pin: "",
+            address1: "",
+            address2: "",
+            city: "",
+            state: ""
+        })
+    }
+
+    async function editAddress(addressId) {
+        const addressToUpdate = initialAddress.find((address) => addressId == address._id)
         setFormData({
             country: addressToUpdate.country,
             firstName: addressToUpdate.firstName,
-            secondName: addressToUpdate.secondName,
+            lastName: addressToUpdate.lastName,
             phone: addressToUpdate.phone,
             pin: addressToUpdate.pin,
             address1: addressToUpdate.address1,
@@ -130,19 +188,62 @@ export function AddressProvider({ children }) {
             state: addressToUpdate.state
         })
 
-        setUpdatedAddressData(addressToUpdate)
+        //setUpdatedAddressData(addressToUpdate)        
     }
 
     //handles address deletion
-    function deleteAddress(selectedId) {
-        const addressToDelete = address.filter((item) => selectedId !== item.aid);
-        setAddress(addressToDelete);
+    async function deleteAddress(addressId) {
+        //const addressToDelete = address.filter((item) => selectedId !== item._id);
+        //setAddress(addressToDelete);
+        try {
+            const response = await fetch(
+                `https://backend-epistemology.vercel.app/api/address/${addressId}`,
+                { method: "DELETE" }
+            )
+
+            if (!response.ok) {
+                throw "Failed to delete address"
+            }
+
+            const data = await response.json()
+
+            if (data) {
+                console.log("Address deleted", data)
+                refetch()
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     //handles isDefault state of address
-    function isDefaultHandler(selectedId) {
+    async function isDefaultHandler(selectedId) {
+        try {
+            const response = await fetch(`https://backend-epistemology.vercel.app/api/address/setDefault/${selectedId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+
+            if (!response.ok) {
+                throw "Failed to set default address"
+            }
+
+            const data = await response.json()
+
+            if (data) {
+                console.log("Default address set to", data)
+                refetch()
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+        /*
         const updatedAddressState = address.map((item) => {
-            if (selectedId !== item.aid) {
+            if (selectedId !== item._id) {
                 return {
                     ...item,
                     isDefault: false
@@ -156,11 +257,14 @@ export function AddressProvider({ children }) {
         })
 
         setAddress(updatedAddressState)
+        */
     }
 
     return (
         <addressContext.Provider value={{
-            address,
+            initialAddress,
+            loading,
+            refetch,
             formData,
             updatedAddressData,
             addressHandler,

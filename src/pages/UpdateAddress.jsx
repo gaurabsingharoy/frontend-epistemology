@@ -1,17 +1,18 @@
 import { useState } from "react"
 import { useContext } from "react"
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import Nav from "../components/Nav";
 //import ecommContext from "../contexts/ContextProvider";
 import addressContext from "../contexts/AddressContext";
 
 const UpdateAddress = () => {
-    const { formData, addressHandler, editAddressHandler } = useContext(addressContext)
+    const { addressId } = useParams()
+    const { formData, refetch, addressHandler, editAddressHandler } = useContext(addressContext)
     const [formSubmitted, setFormSubmitted] = useState(false)
 
     const handleSubmit = (event) => {
-        editAddressHandler(event);
+        editAddressHandler(event, addressId);
         setFormSubmitted(true);
         window.scrollTo(0, 0);
     };
@@ -29,7 +30,7 @@ const UpdateAddress = () => {
                     <form onSubmit={handleSubmit}>
                         <h1 className="my-4 fw-bold">Edit existing address</h1>
                         {formSubmitted && (
-                            <div className="alert alert-success">Address edited successfully! <span>&mdash;</span> <Link to="/address">See addresses page</Link></div>
+                            <div className="alert alert-success">Address edited successfully! <span>&mdash;</span> <Link to="/address" onClick={refetch}>See addresses page</Link></div>
                         )}
                         <label htmlFor="country" className="form-label">
                             Country/Region:{" "}
@@ -54,7 +55,7 @@ const UpdateAddress = () => {
                             className="form-control"
                         />
                         <label htmlFor="secondName" className="form-label">Last Name</label>
-                        <input id="secondName" type="text" className="form-control" placeholder="Enter last name..." value={formData.secondName} onChange={handleChange} />
+                        <input id="secondName" type="text" className="form-control" placeholder="Enter last name..." value={formData.lastName} onChange={handleChange} />
                         <label htmlFor="phone">Phone Number</label>
                         <input id="phone" type="number" value={formData.phone} onChange={handleChange} className="form-control" placeholder="e.g. 9192939495" />
                         <label htmlFor="pin" >Pincode</label>
