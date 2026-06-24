@@ -2,22 +2,34 @@ import { Link } from "react-router-dom"
 import { useState } from "react"
 import { useContext } from "react"
 import Nav from "../components/Nav"
+import addressContext from "../contexts/AddressContext"
 import ecommContext from "../contexts/ContextProvider"
 
 const Checkout = () => {
-    // Added your handler destructuring from context to make sure the onClick methods function cleanly
-    const { cartData, address, isDefaultHandler } = useContext(ecommContext)
+    const { cartData } = useContext(ecommContext)
+    const { address } = useContext(addressContext)
+
     const deliveryAddress = address.find((item) => item.isDefault === true)
     const otherAddresses = address.filter((item) => item.isDefault === false)
+
+    const [newDeliveryAddress, setNewDeliveryAddress] = useState(deliveryAddress)
+    const [delivery, setDelivery] = useState(false)
+
     const totalItems = cartData.reduce((acc, curr) => acc + (curr.quantity || 1), 0)
     const cartTotalPrice = cartData.reduce((acc, curr) => acc + (curr.price * (curr.quantity || 1)), 0)
     const cartDiscountedPrice = cartData.reduce((acc, curr) => acc + (curr.discountedPrice * (curr.quantity || 1)), 0)
     const totalDiscount = cartTotalPrice - cartDiscountedPrice
     const deliveryCharges = 499
     const totalAmount = cartDiscountedPrice + deliveryCharges
-    const [delivery, setDelivery] = useState(false)
+
+
+    function newDeliveryAddressHandler(selectedId) {
+        const toBeDelivered = address.find((item) => item.aid === selectedId)
+        setNewDeliveryAddress(toBeDelivered)
+    }
+
     function deliveryHandler(selectedId) {
-        isDefaultHandler(selectedId)
+        newDeliveryAddressHandler(selectedId)
         setDelivery(false)
     }
 
@@ -32,13 +44,13 @@ const Checkout = () => {
 
                     <div className="card p-3 mb-4 shadow-sm">
                         <p className="fw-semibold d-block mb-1 text-dark">
-                            {deliveryAddress?.firstName} {deliveryAddress?.secondName}
+                            {newDeliveryAddress?.firstName} {newDeliveryAddress?.secondName}
                         </p>
                         <span className="text-muted small">
-                            {deliveryAddress?.address1},{" "}
-                            {deliveryAddress?.address2},<br />
-                            {deliveryAddress?.city}, {deliveryAddress?.state}<br />
-                            <strong>PIN:</strong> {deliveryAddress?.pin}
+                            {newDeliveryAddress?.address1},{" "}
+                            {newDeliveryAddress?.address2},<br />
+                            {newDeliveryAddress?.city}, {newDeliveryAddress?.state}<br />
+                            <strong>PIN:</strong> {newDeliveryAddress?.pin}
                         </span>
                         <div className="mt-auto pt-3">
                             <Link onClick={() => setDelivery(!delivery)} className="pe-1 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">

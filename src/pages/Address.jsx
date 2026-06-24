@@ -1,10 +1,11 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import Nav from "../components/Nav";
-import ecommContext from "../contexts/ContextProvider";
+//import ecommContext from "../contexts/ContextProvider";
+import addressContext from "../contexts/AddressContext";
 
 const Address = () => {
-    const { address, editAddress, deleteAddress, isDefaultHandler } = useContext(ecommContext);
+    const { address, editAddress, deleteAddress, isDefaultHandler } = useContext(addressContext);
 
     return (
         <div>
@@ -52,7 +53,7 @@ const Address = () => {
                                         <>
                                             <span className="pe-2">|</span>
                                             <Link to="/address" onClick={() => isDefaultHandler(address.aid)} className="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
-                                            Set as default
+                                                Set as default
                                             </Link>
                                         </>
                                     ) : ("")}

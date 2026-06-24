@@ -2,6 +2,7 @@
 import { createBrowserRouter, RouterProvider, Outlet, ScrollRestoration } from 'react-router-dom'
 
 import { EcommProvider } from './contexts/ContextProvider';
+import { AddressProvider } from "./contexts/AddressContext";
 
 import BookDetails from './pages/BookDetails';
 import UserDetails from './pages/UserDetails';
@@ -77,7 +78,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <EcommProvider>
-      <RouterProvider router={router} />
+      <AddressProvider>
+        <RouterProvider router={router} />
+      </AddressProvider>
     </EcommProvider>
   )
 }

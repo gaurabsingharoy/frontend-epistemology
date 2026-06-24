@@ -3,10 +3,11 @@ import { useContext } from "react"
 import { Link } from "react-router-dom";
 
 import Nav from "../components/Nav";
-import ecommContext from "../contexts/ContextProvider";
+//import ecommContext from "../contexts/ContextProvider";
+import addressContext from "../contexts/AddressContext";
 
 const UpdateAddress = () => {
-    const { formData, addressHandler, editAddressHandler } = useContext(ecommContext)
+    const { formData, addressHandler, editAddressHandler } = useContext(addressContext)
     const [formSubmitted, setFormSubmitted] = useState(false)
 
     const handleSubmit = (event) => {
