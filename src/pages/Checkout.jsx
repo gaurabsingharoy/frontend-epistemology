@@ -21,7 +21,7 @@ const Checkout = () => {
         }
     }, [initialAddress, newDeliveryAddress])
 
-    const otherAddresses = initialAddress.filter((item) => item._id !== newDeliveryAddress._id)
+    const otherAddresses = initialAddress.filter((item) => item._id !== newDeliveryAddress?._id)
 
     const totalItems = cartData.reduce((acc, curr) => acc + (curr.quantity || 1), 0)
     const cartTotalPrice = cartData.reduce((acc, curr) => acc + (curr.price * (curr.quantity || 1)), 0)
