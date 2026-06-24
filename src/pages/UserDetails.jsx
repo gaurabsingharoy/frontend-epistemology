@@ -97,7 +97,7 @@ const UserDetails = () => {
                                 </div>
                             ) : (
                                 <div className="d-flex flex-column gap-4">
-                                    {orders.map((order) => (
+                                    {[...orders].reverse().map((order) => (
                                         <div key={order.id} className="card shadow-sm border rounded-3 overflow-hidden bg-white">
                                             {/* Order Header */}
                                             <div className="card-header bg-light py-3 border-bottom d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
