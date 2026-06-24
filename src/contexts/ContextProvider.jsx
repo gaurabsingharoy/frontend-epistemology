@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import useFetch from "../customHooks/useFetch";
 
@@ -10,8 +10,23 @@ export default ecommContext;
 export function EcommProvider({ children }) {
     const { data, loading, error } = useFetch("https://backend-epistemology.vercel.app/api/products")
     const initialBookData = data?.data?.products || [];
-    const [cartData, setCartData] = useState([])
-    const [wishlistData, setWishlistData] = useState([])
+    const [cartData, setCartData] = useState(() => {
+        const localCart = localStorage.getItem("cartData")
+        return localCart ? JSON.parse(localCart) : []
+    })
+    const [wishlistData, setWishlistData] = useState(() => {
+        const localWishlist = localStorage.getItem("wishlistData")
+        return localWishlist ? JSON.parse(localWishlist) : []
+    })
+
+    useEffect(() => {
+        localStorage.setItem("cartData", JSON.stringify(cartData))
+    }, [cartData])
+
+    useEffect(() => {
+        localStorage.setItem("wishlistData", JSON.stringify(wishlistData))
+    }, [wishlistData])
+
     const [category, setCategory] = useState([])
     const [rating, setRating] = useState(0)
     const [sort, setSort] = useState("")
