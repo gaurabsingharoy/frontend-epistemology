@@ -9,7 +9,6 @@ const Checkout = () => {
     const { initialAddress } = useContext(addressContext)
 
     const deliveryAddress = initialAddress.find((item) => item.isDefault === true)
-    const otherAddresses = initialAddress.filter((item) => item.isDefault === false)
 
     const [newDeliveryAddress, setNewDeliveryAddress] = useState(deliveryAddress)
     const [delivery, setDelivery] = useState(false)
@@ -21,6 +20,8 @@ const Checkout = () => {
             setNewDeliveryAddress(defaultAddress)
         }
     }, [initialAddress, newDeliveryAddress])
+
+    const otherAddresses = initialAddress.filter((item) => item._id !== newDeliveryAddress._id)
 
     const totalItems = cartData.reduce((acc, curr) => acc + (curr.quantity || 1), 0)
     const cartTotalPrice = cartData.reduce((acc, curr) => acc + (curr.price * (curr.quantity || 1)), 0)
