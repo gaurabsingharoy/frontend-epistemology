@@ -111,19 +111,19 @@ export function AddressProvider({ children }) {
 
     async function editAddress(addressId) {
         const addressToUpdate = initialAddress.find((address) => addressId == address._id)
-        setFormData({
-            country: addressToUpdate.country,
-            firstName: addressToUpdate.firstName,
-            lastName: addressToUpdate.lastName,
-            phone: addressToUpdate.phone,
-            pin: addressToUpdate.pin,
-            address1: addressToUpdate.address1,
-            address2: addressToUpdate.address2,
-            city: addressToUpdate.city,
-            state: addressToUpdate.state
-        })
-
-        //setUpdatedAddressData(addressToUpdate)        
+        if (addressToUpdate) {
+            setFormData({
+                country: addressToUpdate.country || "",
+                firstName: addressToUpdate.firstName || "",
+                lastName: addressToUpdate.lastName || "",
+                phone: addressToUpdate.phone || "",
+                pin: addressToUpdate.pin || "",
+                address1: addressToUpdate.address1 || "",
+                address2: addressToUpdate.address2 || "",
+                city: addressToUpdate.city || "",
+                state: addressToUpdate.state || ""
+            })
+        }
     }
 
     //handles address deletion
@@ -176,7 +176,7 @@ export function AddressProvider({ children }) {
         } catch (error) {
             console.log(error);
         }
-        
+
     }
 
     return (
@@ -185,6 +185,7 @@ export function AddressProvider({ children }) {
             loading,
             refetch,
             formData,
+            setFormData,
             updatedAddressData,
             addressHandler,
             editAddressHandler,

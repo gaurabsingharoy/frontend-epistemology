@@ -20,7 +20,7 @@ const Cart = () => {
         }
         return <span>{stars.join("")}</span>
     }
-    const { cartData, toggleAddToCart, moveItemToWishlist } = useContext(ecommContext);
+    const { cartData, toggleAddToCart, moveItemToWishlist, updateCartItemQuantity } = useContext(ecommContext);
     console.log(cartData)
     const totalItems = cartData.reduce((acc, curr) => acc + (curr.quantity || 1), 0)
     const cartTotalPrice = cartData.reduce((acc, curr) => acc + (curr.price * (curr.quantity || 1)), 0)
@@ -50,7 +50,31 @@ const Cart = () => {
                                             <span className="ms-2 text-muted text-decoration-line-through">₹{book.price}</span>
                                             <br />
 
-                                            <span className="fw-normal text-secondary">Quantity: {book.quantity}</span>
+                                            <div className="d-flex align-items-center mb-auto">
+                                                <span className="fw-normal text-secondary me-1">Quantity:</span>
+                                                <div className="input-group mt-2" style={{ width: "100px" }}>
+                                                    <button
+                                                        className="btn btn-outline-secondary py-1 px-auto"
+                                                        onClick={() => updateCartItemQuantity(book.title, "decrement")}
+                                                        disabled={(book.quantity || 1) <= 1}
+                                                    >
+                                                        -
+                                                    </button>
+                                                    <input
+                                                        type="number"
+                                                        className="form-control text-center bg-white"
+                                                        style={{ padding: "0" }}
+                                                        value={book.quantity || 1}
+                                                        readOnly
+                                                    />
+                                                    <button
+                                                        className="btn btn-outline-secondary py-1 px-auto"
+                                                        onClick={() => updateCartItemQuantity(book.title, "increment")}
+                                                    >
+                                                        +
+                                                    </button>
+                                                </div>
+                                            </div>
 
                                             <br />
                                             <button className="btn btn-outline-danger w-100 mt-2" onClick={() => toggleAddToCart(book.title)}>Remove from Cart</button>

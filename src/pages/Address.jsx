@@ -5,8 +5,22 @@ import Nav from "../components/Nav";
 import addressContext from "../contexts/AddressContext";
 
 const Address = () => {
-    const { initialAddress, loading, editAddress, deleteAddress, isDefaultHandler } = useContext(addressContext);
-
+    const { initialAddress, loading, editAddress, deleteAddress, isDefaultHandler, setFormData } = useContext(addressContext);
+    const editHandler = (addressId) => {
+        const selectedAddress = initialAddress.find((item) => item._id === addressId);
+        setFormData({
+            country: selectedAddress.country,
+            firstName: selectedAddress.firstName,
+            lastName: selectedAddress.lastName,
+            phone: selectedAddress.phone,
+            pin: selectedAddress.pin,
+            address1: selectedAddress.address1,
+            address2: selectedAddress.address2,
+            city: selectedAddress.city,
+            state: selectedAddress.state
+        })
+        editAddress(addressId)
+    }
     return (
         <div>
             <Nav />
@@ -16,7 +30,17 @@ const Address = () => {
 
                     {/* Add New Address Card */}
                     <div className="col">
-                        <Link to="/addAddress" className="text-decoration-none text-reset">
+                        <Link to="/addAddress" className="text-decoration-none text-reset" onClick={() => setFormData({
+                            country: "",
+                            firstName: "",
+                            lastName: "",
+                            phone: "",
+                            pin: "",
+                            address1: "",
+                            address2: "",
+                            city: "",
+                            state: ""
+                        })}>
                             <div className="card h-100 border-dashed d-flex align-items-center justify-content-center text-center p-4 bg-light cursor-pointer">
                                 <div className="text-muted">
                                     <span className="fs-3 d-block">+</span>
@@ -59,7 +83,7 @@ const Address = () => {
 
                                     {/* FIX 2: Added mt-auto and pt-3 to seamlessly push links to the bottom */}
                                     <div className="mt-auto pt-3">
-                                        <Link to={`/updateAddress/${address._id}`} onClick={() => editAddress(address._id)} className="pe-1 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                        <Link to={`/updateAddress/${address._id}`} onClick={() => editHandler(address._id)} className="pe-1 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
                                             Edit
                                         </Link> <span className="pe-2">|</span>
                                         <Link onClick={() => deleteAddress(address._id)} className="pe-1 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">

@@ -129,6 +129,20 @@ export function EcommProvider({ children }) {
         }
     }
 
+    //handles quantity updates for cart items
+    function updateCartItemQuantity(bookTitle, type) {
+        setCartData((prevCart) =>
+            prevCart.map((book) => {
+                if (book.title === bookTitle) {
+                    const currentQuantity = book.quantity || 1;
+                    const newQuantity = type === "increment" ? currentQuantity + 1 : Math.max(1, currentQuantity - 1);
+                    return { ...book, quantity: newQuantity };
+                }
+                return book;
+            })
+        );
+    }
+
     return (
         <ecommContext.Provider value={{
             initialBookData,
@@ -149,7 +163,8 @@ export function EcommProvider({ children }) {
             toggleAddToCart,
             toggleAddToWishlist,
             moveItemToCart,
-            moveItemToWishlist
+            moveItemToWishlist,
+            updateCartItemQuantity
         }}>
             {children}
         </ecommContext.Provider>
